@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Scene } from "../utils/storyParser";
 import { SceneCard } from "./SceneCard";
 import { ChevronLeft, ChevronRight, Volume2, VolumeX, Download, Copy, Bookmark, Check, RotateCcw, Clapperboard } from "lucide-react";
-import { playNarration } from "../services/narrationApi";
+import { speakText, stopSpeech } from "../utils/speech";
 import { motion, AnimatePresence } from "framer-motion";
 import { CinematicNarrationMode } from "./CinematicNarrationMode";
 
@@ -34,32 +34,28 @@ export function StoryPlayer({ scenes, rawText, genre, theme, motionMode, onSave,
     }
   };
 
-  const toggleSpeech = async () => {
-
+  const toggleSpeech = () => {
   if (isSpeaking) {
+    stopSpeech();
     setIsSpeaking(false);
     return;
   }
 
-  try {
+  setIsSpeaking(true);
 
-    setIsSpeaking(true);
+  const text =
+    scenes[currentIndex].content ||
+    String(scenes[currentIndex]);
 
-    await playNarration(
-      scenes[currentIndex],
-      genre
-    );
+  speakText(text);
 
-  } catch (error) {
+  const estimatedDuration = Math.max(4000, text.length * 70);
 
-    console.log(error);
-
-  } finally {
-
+  setTimeout(() => {
     setIsSpeaking(false);
-
-  }
+  }, estimatedDuration);
 };
+
 
   const handleCopy = () => {
     navigator.clipboard.writeText(rawText);
@@ -154,7 +150,9 @@ export function StoryPlayer({ scenes, rawText, genre, theme, motionMode, onSave,
           </button>
           
           <button
-            onClick={toggleSpeech}
+            onClick={() => {
+  toggleSpeech();
+}}
             className={`p-2.5 rounded-lg transition-all flex items-center gap-2 ${isSpeaking ? 'text-white' : 'text-muted-foreground hover:text-white hover:bg-secondary bg-secondary/50'}`}
             style={{ 
               background: isSpeaking ? theme.primary : undefined,

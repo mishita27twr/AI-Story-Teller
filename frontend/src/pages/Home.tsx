@@ -7,7 +7,7 @@ import { OptionSelector } from "../components/OptionSelector";
 import { StoryForm } from "../components/StoryForm";
 import { LoadingScreen } from "../components/LoadingScreen";
 import { genres, moods, styles, lengths, motionModes, genreThemes } from "../data/storyOptions";
-import { generateStory } from "../services/storyApi";
+import { generateStory } from "@/services/storyApi";
 import { AlertCircle } from "lucide-react";
 
 export default function Home() {
