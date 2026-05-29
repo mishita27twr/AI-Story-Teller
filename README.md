@@ -189,7 +189,7 @@ These challenges helped improve both frontend architecture and user experience d
 **Mishita Tiwari**
 
 * GitHub: https://github.com/mishita27twr
-* LinkedIn: YOUR_LINKEDIN_URL
+* LinkedIn: https://www.linkedin.com/in/mishita-tiwari/
 
 ---
 
